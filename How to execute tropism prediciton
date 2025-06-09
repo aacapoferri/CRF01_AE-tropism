@@ -1,0 +1,6 @@
+source("predict_from_fasta.R")
+predict_from_fasta(
+  fasta_path = "file_name.fasta",
+  model_path = "CRF01tropism_xgb_fit.RData",
+  output_csv = "file_name.csv"
+)
