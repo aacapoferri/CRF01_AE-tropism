@@ -1,3 +1,12 @@
+##############################################
+# Predicting viral tropism for HIV-1 CRF01AE #
+#                 Version 1.0                #
+#       Author: Adam A. Capoferri, PhD       #
+#      Contact: adam.capoferri@nih.gov       #
+##############################################
+
+# The executable script 
+
 predict_from_fasta <- function(fasta_path, model_path, output_csv) {
   library(Biostrings)
   library(tidyverse)
@@ -69,7 +78,7 @@ predict_from_fasta <- function(fasta_path, model_path, output_csv) {
   reference_seq <- "CTRPSNNTRTSITIGPGQVFYRTGDIIGDIRKAYC"
   feature_data <- extract_features(seqs, reference_seq)
   
-  # ✅ FIX: Use var_info to get required pre-baking variables
+  # FIX: Use var_info to get required pre-baking variables
   required_vars <- rec_prep$var_info %>%
     filter(role %in% c("predictor", "id")) %>%
     pull(variable)
@@ -96,5 +105,6 @@ predict_from_fasta <- function(fasta_path, model_path, output_csv) {
   
   # Step 5: Export
   write_csv(results, output_csv)
-  message("✅ Prediction complete: ", output_csv)
+  message("Prediction complete: ", output_csv)
 }
+### END ###
