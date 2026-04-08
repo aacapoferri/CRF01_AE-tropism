@@ -1,4 +1,13 @@
-### Training tropism for CRF01AE###
+##################################################
+# Training model for HIV-1 CRF01AE viral tropism #
+#                     Version 1.0                #
+#           Author: Adam A. Capoferri, PhD       #
+#           Contact: adam.capoferri@nih.gov      #
+##################################################
+
+#
+
+
 
 # Load libraries
 library(tidyverse)
@@ -72,9 +81,11 @@ extract_features <- function(sequences, reference_seq) {
 }
 
 # Step 2: Load labeled training data
+      # Ensure that the training file is updated and correct for the run
 training_data <- read_tsv("training_new.tsv", show_col_types = FALSE)
 
 # Step 3: Extract features from sequences using reference
+      # Ensure that the reference V3 loop sequence for particular subtype is correct
 reference_seq <- "CTRPSNNTRTSITIGPGQVFYRTGDIIGDIRKAYC"
 feature_data <- extract_features(training_data$sequence, reference_seq)
 training_set <- bind_cols(training_data %>% select(seq_name, tropism), feature_data)
@@ -112,10 +123,7 @@ rec <- workflows::extract_recipe(xgb_fit)
 # Save model and recipe (must be named xgb_fit and rec for predict_from_fasta)
 save(xgb_fit, rec, file = "CRF01tropism_xgb_fit.RData")
 
-# Step 7: Predict class labels and probabilities
 # Step 7: Predict tropism and assign confidence levels using the trained model
-
-library(tidyverse)
 
 # Predict class labels
 pred_class <- predict(xgb_fit, new_data = training_set, type = "class")
@@ -126,7 +134,7 @@ colnames(pred_class) <- "predicted"
 # Predict class probabilities
 pred_probs <- predict(xgb_fit, new_data = training_set, type = "prob")
 
-# DEBUG: Check structure of predictions (optional)
+# Debugging procedure (censored here): Check structure of predictions
 # print("Class predictions:")
 # print(glimpse(pred_class))
 # print("Probability predictions:")
@@ -156,3 +164,4 @@ write_csv(
     select(seq_name, tropism, predicted, starts_with(".pred_"), confidence),
   "CRF01tropism_xgb_fit.csv"
 )
+### END ###
