@@ -1,3 +1,13 @@
+##############################################
+#    Prediction metrics and AUC calculation  #
+#                 Version 1.0                #
+#       Author: Adam A. Capoferri, PhD       #
+#      Contact: adam.capoferri@nih.gov       #
+##############################################
+
+#After having run the training model for the tropism prediction, this is a script meant to help assess the prediction model
+
+# Load libraries
 library(tidyverse)
 library(caret)
 library(pROC)
@@ -54,3 +64,5 @@ legend("bottomright", legend = c(
   paste0("X4 AUC = ", round(auc(roc_x4), 3)),
   paste0("R5 AUC = ", round(auc(roc_r5), 3))
 ), col = c("red", "blue"), lwd = 2, lty = c(1, 2))
+
+### END ###
